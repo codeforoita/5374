@@ -1,8 +1,8 @@
 label,sublabel,description,styles,bgcolor
 可燃物,,,img/moyasanai02.svg,#FFF33F
+不燃物,,,img/bin02.svg,#F3A9C9
+スプレー缶・蛍光管等,,,img/moyasu02.svg,#ABCD3
 プラスチック製容器包装,,,img/shigen02.svg,##A688BD
 ペットボトル,,,img/shigen02.svg,#C4862
-蛍光管等,,,img/moyasu02.svg,#ABCD3
 缶・びん,,,img/bin02.svg,#F4A570
 古紙・布類,,,img/bin02.svg,#7ECEF4
-不燃物,,,img/bin02.svg,#F3A9C9
