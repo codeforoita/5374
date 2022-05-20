@@ -297,12 +297,12 @@ var TrashModel = function(_lable,_calendarNo) { //大分バージョン　ごみ
     }
     */
     
-    //大分バージョンではcalendar_days.csvからカレンダーNo、ごみ種類の一致する日付を取得して入れる
+    //大分バージョンではcalendar_days.csvからカレンダーNo、収集品目名称（テキスト）の一致する日付を取得して入れる
     csvToArray("data/calendar_days.csv", function(tmp){
       tmp.shift();
       for (var i in tmp) {
         var row = tmp[i];
-        if (row[1] == _calendarNo && row[2] == _lable){
+        if (row[1] == _calendarNo && row[3] == _lable){
           day_list.push(row[4]);
         }
       }
@@ -390,6 +390,28 @@ var RemarkModel = function(data) {
 
 /* var windowHeight; */
 
+//大分バージョンでは他の関数でも利用するため外に出した
+function csvToArray(filename, cb) {
+  $.get(filename, function(csvdata) {
+    //CSVのパース作業
+    //CRの解析ミスがあった箇所を修正しました。
+    //以前のコードだとCRが残ったままになります。
+    // var csvdata = csvdata.replace("\r/gm", ""),
+     csvdata = csvdata.replace(/\r/gm, "");
+    var line = csvdata.split("\n"),
+        ret = [];
+    for (var i in line) {
+      //空行はスルーする。
+      if (line[i].length == 0) continue;
+
+      var row = line[i].split(",");
+      ret.push(row);
+    }
+    cb(ret);
+  });
+}
+
+
 $(function() {
 /*   windowHeight = $(window).height(); */
 
@@ -408,6 +430,7 @@ $(function() {
     localStorage.setItem("selected_area_name", name);
   }
 
+  /* 大分バージョンでは他でも使うので外に出す
   function csvToArray(filename, cb) {
     $.get(filename, function(csvdata) {
       //CSVのパース作業
@@ -427,6 +450,7 @@ $(function() {
       cb(ret);
     });
   }
+  */
 
   function updateAreaList() {
     //大分バージョンへ変更:area_days.csvを使わずに、area_calendar.csvを利用 
@@ -444,7 +468,7 @@ $(function() {
 
         areaModels.push(area);
 
-        /* 大分バージョンではカレンダーNoとごみ分別種類からtrashModelを作る
+        /* 大分バージョンではカレンダーNoと収集品目名称からtrashModelを作る
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
@@ -504,8 +528,7 @@ $(function() {
   }
 
 
-  //function createMenuList(after_action) {
-  function createMenuList() {  //大分バージョン　初期化で分類データが必要
+  function createMenuList(after_action) {
     // 備考データを読み込む
     csvToArray("data/remarks.csv", function(data) {
       data.shift();
@@ -532,8 +555,8 @@ $(function() {
             }
           };
         }
-        //after_action();
-        //$("#accordion2").show();
+        after_action();
+        $("#accordion2").show();
 
       });
 
@@ -594,7 +617,8 @@ $(function() {
 
           target_tag += "</ul>";
 
-          var dateLabel = trash.getDateLabel();
+          //var dateLabel = trash.getDateLabel();
+          var dateLabel = ""; //大分バージョンつかわない
           //あと何日かを計算する処理です。
           var leftDayText = "";
 	  if (trash.mostRecent === undefined) {
@@ -672,9 +696,9 @@ $(function() {
 
     if ($("#accordion").children().length === 0 && descriptions.length === 0) {
 
-      createMenuList();
-      updateData(row_index);
-      $("#accordion2").show();
+      createMenuList(function(){
+        updateData(row_index);
+      });
 
     } else {
       updateData(row_index);
@@ -743,6 +767,8 @@ $(function() {
         return "An unknown error occurred."
     }
   }
-  createMenuList(); //大分バージョン　先に必要
-  updateAreaList();
+  //大分バージョン　先にメニューリスト作成
+  createMenuList(function(){
+    updateAreaList();
+  });
 });
