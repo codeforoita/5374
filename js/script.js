@@ -70,11 +70,13 @@ var AreaModel = function() {
 /**
   各ゴミのカテゴリを管理するクラスです。
 */
-var TrashModel = function(_lable, _cell, remarks) {
-  this.remarks = remarks;
-  this.dayLabel;
+//var TrashModel = function(_lable, _cell, remarks) {
+var TrashModel = function(_lable,_calendarNo) { //大分バージョン　ごみの種類、カレンダーNoのみ利用
+  //this.remarks = remarks; //大分バージョン　利用しない
+  //this.dayLabel; 大分バージョン使わない
   this.mostRecent;
   this.dayList;
+  /* 大分バージョンでは使わない
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
@@ -91,13 +93,15 @@ var TrashModel = function(_lable, _cell, remarks) {
   for (var m in mm) {
     this.mflag[mm[m] - 1] = 1;
   }
+  */
   this.label = _lable;
+  /*
   this.description;
   this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
   var result_text = "";
   var today = new Date();
-
+  //表示する頻度テキスト作成
   for (var j in this.dayCell) {
     if (this.dayCell[j].length == 1) {
       result_text += "毎週" + this.dayCell[j] + "曜日 ";
@@ -105,11 +109,15 @@ var TrashModel = function(_lable, _cell, remarks) {
       result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
     } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0,1) == "*") {
     } else if (this.dayCell[j].length == 10 && this.dayCell[j].substr(0,1) == "隔") {
+  */
       /**** MOD: PICK biweek, Ex:隔月20140401 ****/
       /****ADD****/
+  /* 大分バージョン　使わない
       result_text += "隔週" + this.dayCell[j].charAt(1) + "曜 ";
       this.regularFlg = 2;      // 隔週フラグ
+  */
       /****ADD****/
+  /* 大分バージョン　使わない
     } else {
       // 不定期回収の場合（YYYYMMDD指定）
       result_text = "不定期 ";
@@ -132,7 +140,6 @@ var TrashModel = function(_lable, _cell, remarks) {
   }
   this.dayLabel = result_text;
 
-
   this.getDateLabel = function() {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
@@ -151,9 +158,13 @@ var TrashModel = function(_lable, _cell, remarks) {
     };
     return -1;
   }
+  */
+
   /**
    * このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに"*n" が入っている場合に利用されます
    */
+  //大分バージョンでは、使わない
+  /*
   this.getRemark = function getRemark() {
     var ret = "";
     this.dayCell.forEach(function(day){
@@ -167,15 +178,17 @@ var TrashModel = function(_lable, _cell, remarks) {
     });
     return ret;
   }
+  */
   /**
   このゴミの年間のゴミの日を計算します。
   センターが休止期間がある場合は、その期間１週間ずらすという実装を行っております。
-*/
+  */
   this.calcMostRect = function(areaObj) {
-    var day_mix = this.dayCell;
+    //var day_mix = this.dayCell;　大分バージョンでは使わない
     var result_text = "";
     var day_list = new Array();
 
+    /* 大分バージョンでは使わない
     // 定期回収の場合
     if (this.regularFlg == 1) {
 
@@ -241,7 +254,9 @@ var TrashModel = function(_lable, _cell, remarks) {
           }
         }
       }
+      */
       /****ASS****/
+      /*大分バージョンでは使わない
     } else if (this.regularFlg == 2) {
       // 隔週回収の場合は、basedateに指定初回日付をセット
       for (var j in day_mix) {
@@ -265,7 +280,9 @@ var TrashModel = function(_lable, _cell, remarks) {
           day_list.push(d);
         }
       }
-    /***ADD*****/   
+      */
+    /***ADD*****/
+    /* 大分バージョンでは使わない   
     } else {
       // 不定期回収の場合は、そのまま指定された日付をセットする
       for (var j in day_mix) {
@@ -278,6 +295,19 @@ var TrashModel = function(_lable, _cell, remarks) {
         }
       }
     }
+    */
+    
+    //大分バージョンではcalendar_days.csvからカレンダーNo、ごみ種類の一致する日付を取得して入れる
+    csvToArray("data/calendar_days.csv", function(tmp){
+      tmp.shift();
+      for (var i in tmp) {
+        var row = tmp[i];
+        if (row[1] == _calendarNo && row[2] == _lable){
+          day_list.push(row[4]);
+        }
+      }
+    })
+
     //曜日によっては日付順ではないので最終的にソートする。
     //ソートしなくてもなんとなりそうな気もしますが、とりあえずソート
     day_list.sort(function(a, b) {
@@ -399,15 +429,22 @@ $(function() {
   }
 
   function updateAreaList() {
-    csvToArray("data/area_days.csv", function(tmp) {
-      var area_days_label = tmp.shift();
+    //大分バージョンへ変更:area_days.csvを使わずに、area_calendar.csvを利用 
+    //csvToArray("data/area_days.csv", function(tmp) {
+    csvToArray("data/area_calendar.csv", function(tmp) {
+      //var area_days_label = tmp.shift();
+      tmp.shift(); //大分バージョン　ヘッダは使わない
       for (var i in tmp) {
         var row = tmp[i];
         var area = new AreaModel();
-        area.label = row[0];
-        area.centerName = row[1];
+        //area.label = row[0];
+        area.label = row[0] + '>' + row[1] + '>' + row[2]; //大分バージョン
+        //area.centerName = row[1];
+        area.centerName = row[3]; //大分バージョン
 
         areaModels.push(area);
+
+        /* 大分バージョンではカレンダーNoとごみ分別種類からtrashModelを作る
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
@@ -415,6 +452,13 @@ $(function() {
             area.trash.push(trash);
           }
         }
+        */
+        //大分バージョン
+        for (var r = 0; r < descriptions.length; r++){
+          var trash = new TrashModel(descriptions[r].label,row[4]); 
+          area.trash.push(trash); 
+        }
+
       }
 
       csvToArray("data/center.csv", function(tmp) {
@@ -434,6 +478,7 @@ $(function() {
           var area = areaModels[i];
           area.setCenter(center_data);
         };
+
         //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
         //ListメニューのHTML作成
         var selected_name = getSelectedAreaName();
@@ -459,7 +504,8 @@ $(function() {
   }
 
 
-  function createMenuList(after_action) {
+  //function createMenuList(after_action) {
+  function createMenuList() {  //大分バージョン　初期化で分類データが必要
     // 備考データを読み込む
     csvToArray("data/remarks.csv", function(data) {
       data.shift();
@@ -486,8 +532,8 @@ $(function() {
             }
           };
         }
-        after_action();
-        $("#accordion2").show();
+        //after_action();
+        //$("#accordion2").show();
 
       });
 
@@ -626,9 +672,10 @@ $(function() {
 
     if ($("#accordion").children().length === 0 && descriptions.length === 0) {
 
-      createMenuList(function() {
-        updateData(row_index);
-      });
+      createMenuList();
+      updateData(row_index);
+      $("#accordion2").show();
+
     } else {
       updateData(row_index);
     }
@@ -696,5 +743,6 @@ $(function() {
         return "An unknown error occurred."
     }
   }
+  createMenuList(); //大分バージョン　先に必要
   updateAreaList();
 });
