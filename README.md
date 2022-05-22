@@ -1,10 +1,6 @@
-# 5374について
-For English please see [LOCALIZE_en.md](LOCALIZE_en.md).
-##「いつ、どのゴミが収集されているのか？」
-
-ゴミの問題はどの地域でも深刻になりつつあります。
+# 5374 Oitaについて
  [Code for Kanazawa](http://codeforkanazawa.org/)
-では、先ずは正しいゴミの捨て方に注目しました。例えばお引っ越しをされた場合、このアプリを使えばすぐに分かるように、目的と使い方をとてもシンプルにデザインしました。
+が作成した5374.jpの大分県大分市ローカライズ版です。
 
 ## ブランチの運用について
 
@@ -21,14 +17,8 @@ For English please see [LOCALIZE_en.md](LOCALIZE_en.md).
 
 各地域へのローカライズについては[LOCALIZE.md](LOCALIZE.md)を参照するようにしてください。
 
-
-
-
 ## 開発チームとライセンスについて
-- 小野 祐貴(Yuki ONO)　Developer
-- 五十川 員申(Kazunobu IKAGAWA)　Developer
-- 高木 志宗(Yukimune TAKAGI)　Developer
-- 宮田 人司(Hotoshi MIYATA)　Designer
+- 古城　正信(Masanobu Kojo)　Developer & Designer
 
-本アプリ及びソースコードの著作権はCode for Kanazawaに帰属します。
+本アプリ及びソースコードの著作権はMasanobu Kojoに帰属します。
 但し、このソースコードは[MPL](http://www.mozilla.org/MPL/2.0/)のもと配布されています。MPLに従えば、どなたでも利用、改変、及び再配布が可能です。
