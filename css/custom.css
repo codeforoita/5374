@@ -135,3 +135,23 @@ a:hover {
 	 color: #FF0000;
 	 text-decoration: underline;
 }
+
+/* ローディング画面 */
+#loader-bg {
+	background-color: #fff;
+	height: 100%;
+	left: 0px;
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	z-index: 100;
+  }
+  #loader-bg img {
+	left: 50%;
+	position: fixed;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 100;
+  }

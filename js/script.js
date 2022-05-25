@@ -437,6 +437,11 @@ function csvToArray(filename, cb) {
   });
 }
 
+$(window).on("load", function () {
+  // 読み込み完了したら実行する
+  $("#loader").delay(600).fadeOut(300); // ローディングをフェードアウト
+  $("#loader-bg").delay(900).fadeOut(800); // 背景色をフェードアウト
+});
 
 $(function () {
   /*   windowHeight = $(window).height(); */
@@ -447,6 +452,9 @@ $(function () {
   var remarks = new Array();
   /*   var descriptions = new Array(); */
 
+  /* ロード画面 */
+  const h = $(window).height();
+  $("#loader-bg ,#loader").height(h).css("display", "block"); //ローディング画像を表示
 
   function getSelectedAreaName() {
     return localStorage.getItem("selected_area_name");
@@ -469,7 +477,7 @@ $(function () {
       for (var i in line) {
         //空行はスルーする。
         if (line[i].length == 0) continue;
-
+  
         var row = line[i].split(",");
         ret.push(row);
       }
@@ -506,7 +514,7 @@ $(function () {
         */
         //大分バージョン
         for (var r = 0; r < descriptions.length; r++) {
-            var trash = new TrashModel(descriptions[r].label, row[4]);
+          var trash = new TrashModel(descriptions[r].label, row[4]);
           area.trash.push(trash);
         }
 
