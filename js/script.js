@@ -2,6 +2,7 @@
 
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
+  大分バージョンでは自治区を示すクラスです。
 */
 var AreaModel = function () {
   this.label;
@@ -416,6 +417,24 @@ csvToArray("data/calendar_days.csv", function (tmp) {
   }
 })
 
+/**
+ * 大分バージョン
+ * 地区モデル
+ */
+var ChikuModel = function(data){
+  this.label = data[0];
+  this.kouku = new Array();
+}
+
+/**
+ * 大分バージョン
+ * 校区モデル
+ */
+ var KoukuModel = function(data){
+  this.label = data[1];
+  this.jichiku = new Array();
+}
+
 //大分バージョンでは他の関数でも利用するため外に出した
 function csvToArray(filename, cb) {
   $.get(filename, function (csvdata) {
@@ -448,6 +467,8 @@ $(function () {
 
   var center_data = new Array();
   var descriptions = new Array();
+  var chikuModels = new Array();
+  var koukuModels = new Array();
   var areaModels = new Array();
   var remarks = new Array();
   /*   var descriptions = new Array(); */
@@ -455,6 +476,22 @@ $(function () {
   /* ロード画面 */
   const h = $(window).height();
   $("#loader-bg ,#loader").height(h).css("display", "block"); //ローディング画像を表示
+
+  function getSelectedChikuName() {
+    return localStorage.getItem("selected_chiku_name");
+  }
+
+  function setSelectedChikuName(name) {
+    localStorage.setItem("selected_chiku_name", name);
+  }
+
+  function getSelectedKoukuName() {
+    return localStorage.getItem("selected_kouku_name");
+  }
+
+  function setSelectedKoukuName(name) {
+    localStorage.setItem("selected_kouku_name", name);
+  }
 
   function getSelectedAreaName() {
     return localStorage.getItem("selected_area_name");
@@ -495,13 +532,63 @@ $(function () {
       tmp.shift(); //大分バージョン　ヘッダは使わない
       for (var i in tmp) {
         var row = tmp[i];
+        //地区データ作成
+        var chiku = new ChikuModel(row);
+        var cflg = 0;
+        for (var c in chikuModels){
+          if(chikuModels[c].label == chiku.label){
+            cflg = 1;
+            break;
+          }
+        }
+        if(cflg == 0) {
+          chikuModels.push(chiku);
+        }
+        //校区データ作成
+        var kouku = new KoukuModel(row);
+        var kflg = 0;
+        for(var c in chikuModels){
+          if(chikuModels[c].label == chiku.label){
+            for (var k in chikuModels[c].kouku){
+              if(chikuModels[c].kouku[k].label == kouku.label){
+                kflg = 1;
+                break;
+              }
+            }
+            if(kflg == 0){
+              chikuModels[c].kouku.push(kouku);
+              break;
+            }
+          }
+        }
+        //自治区データ作成
         var area = new AreaModel();
         //area.label = row[0];
-        area.label = row[0] + '>' + row[1] + '>' + row[2]; //大分バージョン
+        area.label = row[2]; //大分バージョン
         //area.centerName = row[1];
         area.centerName = row[3]; //大分バージョン
 
-        areaModels.push(area);
+        //大分バージョン
+        for (var r = 0; r < descriptions.length; r++) {
+          var trash = new TrashModel(descriptions[r].label, row[4]);
+          area.trash.push(trash);
+        }
+        //ゴミ分類データを作ってからプッシュ
+        var aflg = 0;
+        for(var c in chikuModels){
+          if(chikuModels[c].label == chiku.label){
+            for (var k in chikuModels[c].kouku){
+              if(chikuModels[c].kouku[k].label == kouku.label){
+                chikuModels[c].kouku[k].jichiku.push(area);
+                aflg = 1;
+                break;
+              }
+            }
+            if(aflg == 1){
+              break;
+            }
+          }
+        }
 
         /* 大分バージョンではカレンダーNoと収集品目名称からtrashModelを作る
         //２列目以降の処理
@@ -512,11 +599,6 @@ $(function () {
           }
         }
         */
-        //大分バージョン
-        for (var r = 0; r < descriptions.length; r++) {
-          var trash = new TrashModel(descriptions[r].label, row[4]);
-          area.trash.push(trash);
-        }
 
       }
 
@@ -540,23 +622,21 @@ $(function () {
 
         //エリアとゴミ処理センターを対応後に、表示のリストを生成する。
         //ListメニューのHTML作成
-        var selected_name = getSelectedAreaName();
+        var selected_name = getSelectedChikuName();
+        var chiku_select_form = $("#select_chiku");
+        var kouku_select_form = $("#select_kouku");
         var area_select_form = $("#select_area");
-        var select_html = "";
-        select_html += '<option value="-1">地域を選択してください</option>';
-        for (var row_index in areaModels) {
-          var area_name = areaModels[row_index].label;
-          var selected = (selected_name == area_name) ? 'selected="selected"' : "";
-
-          select_html += '<option value="' + row_index + '" ' + selected + " >" + area_name + "</option>";
-        }
-
-        //デバッグ用
-        if (typeof dump == "function") {
-          dump(areaModels);
+        var chiku_html = "";
+        chiku_html += '<option value="-1">地区を選択してください</option>';
+        for (var row_index in chikuModels) {
+          var chiku_name = chikuModels[row_index].label;
+          var selected = (selected_name == chiku_name) ? 'selected="selected"' : "";
+          chiku_html += '<option value="' + row_index + '" ' + selected + " >" + chiku_name + "</option>";
         }
         //HTMLへの適応
-        area_select_form.html(select_html);
+        chiku_select_form.html(chiku_html);
+        kouku_select_form.html('<option value="-1">-</option>')
+        area_select_form.html('<option value="-1">-</option>');
         //area_select_form.change();  大分バージョン　先にchangeイベントが発生することを防ぐ
       });
     });
@@ -743,7 +823,75 @@ $(function () {
     }
   }
 
+  function onChangeChiku(row_index) {
+    if (row_index == -1) {
+      $("#accordion").html("");
+      setSelectedChikuName("");
+      $("#select_kouku").html('<option value="-1">-</option>');
+      $("#select_area").html('<option value="-1">-</option>');
+      return;
+    }
+    setSelectedChikuName(chikuModels[row_index].label);
 
+    function updateKouku(r_index){
+      koukuModels = chikuModels[r_index].kouku;
+      var kouku_html = '<option value="-1">校区を選択してください</option>';
+      for (var r in koukuModels) {
+        var kouku_name = koukuModels[r].label;
+        var selected = (kouku_name == getSelectedKoukuName()) ? 'selected="selected"' : "";
+        kouku_html += '<option value="' + r + '" ' + selected + " >" + kouku_name + "</option>";
+      }
+
+      //HTMLへの適応
+      $("#select_kouku").html(kouku_html);
+      $("#select_area").html('<option value="-1">-</option>');
+    }
+
+    if ($("#accordion").children().length === 0 && descriptions.length === 0) {
+
+      createMenuList(function () {
+        updateKouku(row_index);
+      });
+
+    } else {
+      //alert(706);
+      updateKouku(row_index);
+    }
+  }
+
+  function onChangeKouku(row_index) {
+    if (row_index == -1) {
+      $("#accordion").html("");
+      setSelectedKoukuName("");
+      $("#select_area").html('<option value="-1">-</option>');
+      return;
+    }
+    setSelectedKoukuName(koukuModels[row_index].label);
+
+    function updateArea(r_index){
+      areaModels = koukuModels[r_index].jichiku;
+      var area_html = '<option value="-1">自治区を選択してください</option>';
+      for (var r in areaModels) {
+        var area_name = areaModels[r].label;
+        var selected = (area_name == getSelectedAreaName()) ? 'selected="selected"' : "";
+        area_html += '<option value="' + r + '" ' + selected + " >" + area_name + "</option>";
+      }
+
+      //HTMLへの適応
+      $("#select_area").html(area_html);
+    }
+
+    if ($("#accordion").children().length === 0 && descriptions.length === 0) {
+
+      createMenuList(function () {
+        updateArea(row_index);
+      });
+
+    } else {
+      //alert(706);
+      updateArea(row_index);
+    }
+  }
 
   function getAreaIndex(area_name) {
     for (var i in areaModels) {
@@ -754,6 +902,18 @@ $(function () {
     return -1;
   }
   //リストが選択されたら
+  $("#select_chiku").change(function (data) {
+    //alert(721);
+    var row_index = $(data.target).val();
+    //alert(row_index);
+    onChangeChiku(row_index);
+  });
+  $("#select_kouku").change(function (data) {
+    //alert(721);
+    var row_index = $(data.target).val();
+    //alert(row_index);
+    onChangeKouku(row_index);
+  });
   $("#select_area").change(function (data) {
     //alert(721);
     var row_index = $(data.target).val();
