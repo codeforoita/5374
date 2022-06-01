@@ -12,11 +12,7 @@
 
 ## 使い方について
 
-[HOWTOUSE.md](HOWTOUSE.md)に5374標準の文章を用意してあるので、書き換えて使ってください。
-
-## ローカライズについて
-
-各地域へのローカライズについては[LOCALIZE.md](LOCALIZE.md)を参照するようにしてください。
+[HOWTOUSE.md](HOWTOUSE.md)を参照してください。
 
 ## 開発チームとライセンスについて
 - 古城　正信(Masanobu Kojo)　Developer & Designer
