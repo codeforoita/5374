@@ -4,10 +4,10 @@
 body {
 	font-family: ".HiraKakuInterface-W1",'Lucida Grande', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, sans-serif;
 }
-a,
+#accordion a,
 a:hover {
-	color: #000000; 
-	text-decoration: none; 
+	 color: #000000; 
+	 text-decoration: none; 
 }
 .accordion-inner {
 	padding: 9px 15px;
@@ -78,6 +78,12 @@ a:hover {
 /*!
  * 5374.jpについて
  */
+
+header {
+	color:#000000;
+	font-size: large;
+}
+
 #accordion3 a.accordion-toggle-top {
 	color: #000000;
 	height: 22px;

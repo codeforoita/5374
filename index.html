@@ -2,72 +2,104 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-    <title>5374(ｺﾞﾐﾅｼ)-oita</title> 
+    <title>5374(ｺﾞﾐﾅｼ)-oita</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
-    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
+    <meta name="viewport"
+      content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"
+      />
+    <link rel="apple-touch-icon-precomposed"
+      href="img/apple-touch-icon-precomposed.png" />
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
     <link href="css/custom.css" rel="stylesheet" media="screen" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async
+      src="https://www.googletagmanager.com/gtag/js?id=G-8H7EFE1X6L"></script>
+    <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8H7EFE1X6L');
+</script>
   </head>
   <body>
-  <style id="accordion-style" type="text/css"></style>
-  <div id="accordion"></div>
-  <select class="form-control" id="select_chiku"></select><br>
-  <select class="form-control" id="select_kouku"></select><br>
-  <select class="form-control" id="select_area"></select><br>
-  <ul>※注意事項
-    <li>住所「大分市要町1丁目～9丁目」の方は、お手数ですが、清掃業務課(097-568-5763)、もしくは西部清掃事業所(097-541-5473)までお問合せください。</li>
-    <li>佐賀関の関地区＞見尾自治区の方は、佐賀関支所(097-575-1122)への電話対応となっています。</li>
-  </ul>
-  <div class="accordion" id="accordion3">
-    <div class="accordion-group-top">
-      <div class="accordion-heading">
-        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_0">5374-oitaについて</a>
-      </div>
-      <div id="collapse3_0" class="accordion-body collapse">
-        <div class="accordion-inner">
-          <div id="help">
-            <h2>使い方</h2>
-            <h3>色でゴミのジャンルを表示</h3>
-            <p>一番近いゴミの日とジャンルを上から順に表示しています。色は大分市のごみカレンダーの色に合わせています。</p>
-            <h3>捨てる事が可能なゴミ</h3>
-            <p>ゴミのジャンルをタップすると、捨てることが可能なゴミの一覧を見ることができます（データ公開要請中のため未実装）</p>
-            <h3>設定</h3>
-            <p>お住まいの地域を選択することで、ゴミ収集日が自動的に更新されます。</p>
-            <div id="caption">
-              <h4>提供されるゴミ情報について</h4>
-              <p>大分市が公開しているデータから独自に解析し、アプリに実装しました。</p>
-              <h4>5374について</h4>
-              <p><a href="http://5374.jp/">「5374.jp」</a>は<a href="http://codeforkanazawa.org/">Code for Kanazawa</a>が作成したアプリです。
-              本アプリ（5374-oita）は、5374.jpのソースコードを改変して作成したものです。5374.jpのソースコードは<a href="https://www.mozilla.org/en-US/MPL/2.0/">MPL</a>のもと配布されています。</p>
-              <h4>ソースコードについて</h4>
-              <p>本アプリのソースコードはCode for OitaのGithubレポジトリに公開しています。ライセンスはMPLです。</p>
-              <h4>ライセンスについて</h4>
-              <p>本アプリ本体の著作権は<a href="https://masanobu-kojo.net">Masanobu Kojo</a>に帰属します。</p>
+    <header>5374-oita</header>
+    <p>お住いの自治区等からゴミ出しの日を表示します。</p>
+    <style id="accordion-style" type="text/css"></style>
+    <div id="accordion"></div>
+    <select class="form-control" id="select_chiku"></select><br>
+    <select class="form-control" id="select_kouku"></select><br>
+    <select class="form-control" id="select_area"></select><br>
+    <ul>※注意事項
+      <li>このサービスはOPEN
+        Research&Developmentが提供しています。大分市役所の公式サイトではありませんので、サービスに関する問い合わせを大分市役所に行うことはご遠慮ください。</li>
+      <li>ご自分の自治区等がわからない場合は、大分市役所公式サイトの<a href="https://www2.wagmap.jp/oitacity/Portal?mid=6">「おおいたマップ」</a>から「ごみ収集マップ」を開き、住所等で検索して確認してください。</li>
+      <li>住所「大分市要町1丁目～9丁目」の方は、データが公開されていませんでしたので掲載しておりません。</li>
+      <li>佐賀関の関地区＞見尾自治区の方は、大分市ホームページに「電話対応」と記載がありましたので掲載しておりません。</li>
+    </ul>
+    <a href="https://px.a8.net/svt/ejp?a8mat=3NCB86+CMV7Q2+3JHG+TTDZ5"
+      rel="nofollow">
+      <img border="0" width="320" height="50" alt=""
+        src="https://www22.a8.net/svt/bgt?aid=220604118764&wid=002&eno=01&mid=s00000016522005008000&mc=1"></a>
+    <img border="0" width="1" height="1"
+      src="https://www19.a8.net/0.gif?a8mat=3NCB86+CMV7Q2+3JHG+TTDZ5" alt="">
+    <div class="accordion" id="accordion3">
+      <div class="accordion-group-top">
+        <div class="accordion-heading">
+          <a class="accordion-toggle-top" data-toggle="collapse"
+            data-parent="#accordion3" href="#collapse3_0">5374-oitaについて（クリックして展開）</a>
+        </div>
+        <div id="collapse3_0" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <div id="help">
+              <h2>使い方</h2>
+              <h3>色でゴミのジャンルを表示</h3>
+              <p>一番近いゴミの日とジャンルを上から順に表示しています。色は大分市のごみカレンダーの色に合わせています。</p>
+              <h3>捨てる事が可能なゴミ</h3>
+              <p>ゴミのジャンルをタップすると、捨てることが可能なゴミの一覧を見ることができます（データ公開要請中のため未実装）</p>
+              <h3>設定</h3>
+              <p>お住まいの地域を選択することで、ゴミ収集日が自動的に更新されます。</p>
+              <h2>その他</h2>
+              <div id="caption">
+                <h3>提供されるゴミ情報について</h3>
+                <p>大分市が公開しているデータから独自に解析し、アプリに実装しました。</p>
+                <p> 出典：<a
+                    href="http://www.city.oita.oita.jp/o150/kurashi/gomi/2022karenda/opendeta.html">「令和4年度ごみ収集カレンダー（CSV形式オープンデータ）」（大分市）（http://www.city.oita.oita.jp/o150/kurashi/gomi/2022karenda/opendeta.html）</a>（2022年5月31日に利用）</p>
+                <h3>5374について</h3>
+                <p><a href="http://5374.jp/">「5374.jp」</a>は<a
+                    href="http://codeforkanazawa.org/">Code for Kanazawa</a>が作成したアプリです。
+                  本アプリ（5374-oita）は、5374.jpのソースコードを改変して作成したものです。5374.jpのソースコードは<a
+                    href="https://www.mozilla.org/en-US/MPL/2.0/">MPL</a>のもと配布されています。</p>
+                <h3>ソースコードについて</h3>
+                <p>本アプリのソースコードはCode for OitaのGithubレポジトリに公開しています。ライセンスはMPLです。</p>
+                <h3>ライセンスについて</h3>
+                <p>本アプリの改変前の5374.jpのソースコード部分については、Code for Kanazawaに著作権が帰属します。</p>
+                <p>本アプリ本体と改変したソースコードの著作権は<a href="https://open-rd.net">OPEN
+                    Research&Development（古城正信）</a>に帰属します。</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- ロード画面 -->
-  <div id="loader-bg">
-    <div id="loader">
-      <img src="img/load.gif" />
+    <!-- ロード画面 -->
+    <div id="loader-bg">
+      <div id="loader">
+        <img src="img/load.gif" />
+      </div>
     </div>
-  </div>
-  <!-- JavaScript plugins (requires jQuery) -->
-  <script src="js/jquery-1.10.2.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="js/bootstrap.min.js"></script>
-  <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) 
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) 
   <script src="js/respond.js"></script>
-  -->  
-  <!-- ブックマークお勧めポップアップ追加-->
-  <script src="js/bookmark-bubble/bookmark_bubble.min.js"></script>
-  <script src="js/bookmark-bubble/example/example.min.js"></script>
-  <script src="js/setting.js"></script>
-  <script src="js/script.js"></script>
+  -->
+    <!-- ブックマークお勧めポップアップ追加-->
+    <script src="js/bookmark-bubble/bookmark_bubble.min.js"></script>
+    <script src="js/bookmark-bubble/example/example.min.js"></script>
+    <script src="js/setting.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
